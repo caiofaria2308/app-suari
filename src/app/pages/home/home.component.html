@@ -1,0 +1,26 @@
+<nz-table >
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Tipo</th>
+        <th>CPF</th>
+        <th>Telefone</th>
+        <th>Empresa</th>
+        <th>Últ. atualização </th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of person_list">
+        <td>{{ data.id }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.type }}</td>
+        <td>{{ data.cpf }}</td>
+        <td>{{ data.phone }}</td>
+        <td>{{ data.company }}</td>
+        <td>{{ data.last_update }}</td>
+        <td>Ações</td>
+      </tr>
+    </tbody>
+  </nz-table>
