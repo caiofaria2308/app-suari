@@ -51,6 +51,7 @@ export class AppComponent {
         this.get_username()
       },
       (error: HttpErrorResponse) => {
+        this.isLoadingLogin = false
         if(error.status == 401){
           this.error_message = "Usuário/Senha incorreta"
         }

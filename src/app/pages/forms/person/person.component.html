@@ -26,6 +26,7 @@
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu nzSelectable>
               <li nz-menu-item (click) = "update(data.id)">Editar</li>
+              <li nz-menu-item (click) = "open_photos(data.id)">Fotos</li>
             </ul>
           </nz-dropdown-menu>
         </td>
@@ -53,35 +54,33 @@
                 <nz-form-item>
                     <nz-form-label nzRequired nzFor="name">Nome</nz-form-label>
                     <nz-form-control nzErrorTip="Insira o nome!">
-                    <input nz-input placeholder="Por favor insira o nome" formControlName="name" value="{{ last_name }}" />
+                    <input nz-input placeholder="Por favor insira o nome" formControlName="name" [(ngModel)]=" last_name " />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                  <nz-form-label nzRequired nzFor="tipo">Tipo</nz-form-label>
+                  <nz-form-label nzRequired nzFor="type">Tipo</nz-form-label>
                   <nz-form-control nzErrorTip="Selecione o tipo!">
-                  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Selecione o tipo" formControlName="type"  [(ngModel)]="last_type">
-                    <div *ngFor="let t of type_list">
-                      <nz-option nzLabel="{{ t.name }}" nzValue="{{ t.id }}"></nz-option>
-                    </div>
+                  <nz-select [(ngModel)]="last_type"  nzPlaceHolder="Selecione o tipo" formControlName="type"  >
+                      <nz-option *ngFor="let t of type_list" nzLabel="{{t.name}}" nzValue="{{t.id}}"></nz-option>
                   </nz-select>
                   </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                   <nz-form-label nzRequired nzFor="cpf">CPF</nz-form-label>
                   <nz-form-control nzErrorTip="Insira o CPF!">
-                  <input nz-input placeholder="Por favor insira o cpf" formControlName="cpf" value="{{ last_cpf }}" />
+                  <input nz-input placeholder="Por favor insira o cpf" formControlName="cpf" [(ngModel)]=" last_cpf " />
                   </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                   <nz-form-label nzRequired nzFor="phone">Telefone</nz-form-label>
                   <nz-form-control nzErrorTip="Insira o telefone!">
-                  <input nz-input placeholder="Por favor insira o telefone" formControlName="phone" value="{{ last_phone }}" />
+                  <input nz-input placeholder="Por favor insira o telefone" formControlName="phone" [(ngModel)]=" last_phone " />
                   </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                   <nz-form-label nzRequired nzFor="company">Empresa</nz-form-label>
                   <nz-form-control nzErrorTip="Insira a empresa!">
-                  <input nz-input placeholder="Por favor insira a empresa" formControlName="company" value="{{ last_company }}" />
+                  <input nz-input placeholder="Por favor insira a empresa" formControlName="company" [(ngModel)]=" last_company " />
                   </nz-form-control>
                 </nz-form-item>
                 <nz-form-item nz-row class="register-area">
@@ -106,3 +105,30 @@
       </div>
     </ng-template>
   </nz-drawer>
+
+  <nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="false"
+  [nzWidth]="720"
+  [nzVisible]="visible_photos"
+  nzTitle="Exibir fotos"
+  [nzFooter]="footerTpl"
+  (nzOnClose)="close_photos()"
+>
+  <ng-container *nzDrawerContent>
+    <nz-carousel nzAutoPlay *ngIf = "!isLoadingCarousel">
+      <div nz-carousel-content *ngFor="let photo of list_photos">
+        <img src="{{photo.object_media}}"style="width:100%" >
+      </div>
+    </nz-carousel>
+    <div *ngIf="isLoadingCarousel">
+      <nz-spin nzSimple ></nz-spin>
+    </div>
+  
+  </ng-container>
+  <ng-template #footerTpl>
+    <div style="float: right">
+      <button nz-button style="margin-right: 8px;" (click)="close_photos()">Cancelar</button>
+    </div>
+  </ng-template>
+</nz-drawer>

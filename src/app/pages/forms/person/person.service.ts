@@ -40,4 +40,9 @@ export class PersonService {
     var url = `${this.url_api}api/v1/person/${id}/`
     return this.http.put(url, form, this.httpOptions)
   }
+
+  get_photos_by_id(){
+    var url = `${this.url_api}api/v1/person-media/`
+    return this.http.get(url, this.httpOptions)
+  }
 }

@@ -15,8 +15,11 @@ export class PersonComponent implements OnInit {
   list = new Array
   type_list = new Array
   tmp_type = new Array
+  list_photos = new Array
+
   loading_table = true
   visible = false;
+  visible_photos = false
   is_update = false
   labbel_button = "Cadastrar pessoa"
   message_submit = ""
@@ -29,6 +32,7 @@ export class PersonComponent implements OnInit {
   last_company = ""
 
   isLoadingForm = false
+  isLoadingCarousel = false
   validateForm!: FormGroup;
 
   
@@ -98,6 +102,7 @@ export class PersonComponent implements OnInit {
         this.last_type = data.type
         this.last_cpf = data.cpf
         this.last_company = data.company
+        console.log(this.last_type)
       }, (error: HttpErrorResponse) => {
         console.log(error)      }
     )
@@ -117,6 +122,29 @@ export class PersonComponent implements OnInit {
     this.visible = false;
   }
 
+  open_photos(id: any): void{
+    this.isLoadingCarousel = true
+    this.list_photos = new Array
+    this.app.get_photos_by_id().subscribe(
+      (data: any) => {
+          data.forEach((element: any) => {
+            if(id == element.person){
+              this.list_photos.push(element)
+            }
+          });
+          this.isLoadingCarousel = false
+          this.visible_photos = true
+      }, (error: HttpErrorResponse) => {
+        console.log(error)
+        this.isLoadingCarousel = false
+      }
+    )
+  }
+
+  close_photos(): void{
+    this.visible_photos = false
+  }
+
 
   submitForm(): void {
     this.isLoadingForm = true
@@ -132,7 +160,6 @@ export class PersonComponent implements OnInit {
         this.app.create(this.validateForm.value).subscribe(
           (data: any) => { 
               this.load_type()
-              this.load_person()
               this.isLoadingForm = false
               this.close()
           },(error: HttpErrorResponse) => {
@@ -145,7 +172,6 @@ export class PersonComponent implements OnInit {
         this.app.update(this.validateForm.value, this.last_id).subscribe(
           (data: any) => {
               this.load_type()
-              this.load_person()
               this.isLoadingForm = false
               this.close()
           },(error: HttpErrorResponse) => {
@@ -154,6 +180,8 @@ export class PersonComponent implements OnInit {
           }
         )
       }
+    }else{
+      this.isLoadingForm = false
     }
   }
 

@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
     this.homeService.getPerson().subscribe(
       (data: any) => {
         data.forEach((element: any) => {
+          let date = new Date(element.last_update)
           var p: Person = {
             id: element.id,
             name: element.name ,
@@ -49,7 +50,7 @@ export class HomeComponent implements OnInit {
             type: this.types_list[element.type],
             cpf: element.cpf,
             company: element.company,
-            last_update: element.last_update.toLocaleString()
+            last_update: `${date.toLocaleDateString()} ${date.toLocaleTimeString()} ` 
           }
           this.person_list.push(p)
         });
