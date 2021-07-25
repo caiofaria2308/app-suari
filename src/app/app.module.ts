@@ -17,12 +17,24 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { CommonModule } from "@angular/common";
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { TypeComponent } from './pages/forms/type/type.component';
+import { TypeMediaComponent } from './pages/forms/type-media/type-media.component';
+import { PersonComponent } from './pages/forms/person/person.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 registerLocaleData(pt);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TypeComponent,
+    TypeMediaComponent,
+    PersonComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +49,13 @@ registerLocaleData(pt);
     NzFormModule,
     ReactiveFormsModule,
     NzInputModule,
-    NzButtonModule
+    NzButtonModule,
+    NzIconModule,
+    NzSpinModule,
+    CommonModule,
+    NzTableModule,
+    NzDropDownModule,
+    NzSelectModule
   ],
   providers: [{ provide: NZ_I18N, useValue: pt_BR }],
   bootstrap: [AppComponent]

@@ -17,10 +17,16 @@
       <li nz-submenu nzOpen nzTitle="Cadastro" nzIcon="form">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a>Tipo de pessoa</a>
+            <a routerLink="form/person">Pessoa</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>Tipo de foto</a>
+            <a routerLink="form/type-person">Tipo de pessoa</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="form/type-person">Tipo de pessoa</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="form/type-media">Tipo de foto</a>
           </li>
         </ul>
       </li>
@@ -34,6 +40,11 @@
                nz-icon
                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
             ></i>
+        </span>
+        <span class="header-trigger" style="float: right; padding-top: 0px!important;" wfd-id="84" (click) = "logout()">
+          <p>{{username}}
+            <i nz-icon nzType="logout"  nzTheme="outline"></i>
+          </p>
         </span>
       </div>
     </nz-header>
@@ -51,33 +62,38 @@
       nzTitle="Login"
     >
       <form *nzDrawerContent nz-form  [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
-        <div nz-row>
-          <div nz-col nzSpan="24">
-            <nz-form-item>
-              <nz-form-control nzErrorTip="Digite seu usuário!">
-                <nz-input-group nzPrefixIcon="user">
-                  <input type="text" nz-input formControlName="username" placeholder="Username" />
-                </nz-input-group>
-              </nz-form-control>
-            </nz-form-item>
+        <div *ngIf="!isLoadingLogin">
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Digite seu usuário!">
+                  <nz-input-group nzPrefixIcon="user">
+                    <input type="text" nz-input formControlName="username" placeholder="Username" />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Digite sua senha!">
+                  <nz-input-group nzPrefixIcon="lock">
+                    <input type="password" nz-input formControlName="password" placeholder="Password" />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row>
+            <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
+          </div>
+          <div nz-row>
+            <p style="color: red">{{ error_message }}</p>
           </div>
         </div>
-        <div nz-row>
-          <div nz-col nzSpan="24">
-            <nz-form-item>
-              <nz-form-control nzErrorTip="Digite sua senha!">
-                <nz-input-group nzPrefixIcon="lock">
-                  <input type="password" nz-input formControlName="password" placeholder="Password" />
-                </nz-input-group>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-        </div>
-        <div nz-row>
-          <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
-        </div>
-        <div nz-row>
-          <p style="color: red">{{ error_message }}</p>
+        <div *ngIf="isLoadingLogin">
+          <nz-spin nzSimple ></nz-spin>
         </div>
       </form>
     </nz-drawer>

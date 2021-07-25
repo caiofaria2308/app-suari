@@ -1,0 +1,108 @@
+<nz-table #table_person *ngIf="!loading_table" [nzData] = "list" >
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Tipo</th>
+        <th>CPF</th>
+        <th>Telefone</th>
+        <th>Empresa</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of table_person.data">
+        <td>{{ data.id }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.type }}</td>
+        <td>{{ data.cpf }}</td>
+        <td>{{ data.phone }}</td>
+        <td>{{ data.company }}</td>
+        <td>
+            <a nz-dropdown [nzDropdownMenu]="menu">
+            Ações
+            <i nz-icon nzType="down"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <li nz-menu-item (click) = "update(data.id)">Editar</li>
+            </ul>
+          </nz-dropdown-menu>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <div *ngIf="loading_table">
+    <nz-spin nzSimple ></nz-spin>
+  </div>
+
+  <button nz-button nzType="primary" (click)="create()">Novo</button>
+  <nz-drawer
+    [nzBodyStyle]="{ overflow: 'auto' }"
+    [nzMaskClosable]="false"
+    [nzWidth]="720"
+    [nzVisible]="visible"
+    nzTitle="{{ labbel_button }}"
+    [nzFooter]="footerTpl"
+    (nzOnClose)="close()"
+  >
+    <form nz-form *nzDrawerContent [formGroup]="validateForm" (ngSubmit)="submitForm()">
+        <div *ngIf="!isLoadingForm">
+            <div nz-row [nzGutter]="8">
+                <div nz-col nzSpan="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzFor="name">Nome</nz-form-label>
+                    <nz-form-control nzErrorTip="Insira o nome!">
+                    <input nz-input placeholder="Por favor insira o nome" formControlName="name" value="{{ last_name }}" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label nzRequired nzFor="tipo">Tipo</nz-form-label>
+                  <nz-form-control nzErrorTip="Selecione o tipo!">
+                  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Selecione o tipo" formControlName="type"  [(ngModel)]="last_type">
+                    <div *ngFor="let t of type_list">
+                      <nz-option nzLabel="{{ t.name }}" nzValue="{{ t.id }}"></nz-option>
+                    </div>
+                  </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label nzRequired nzFor="cpf">CPF</nz-form-label>
+                  <nz-form-control nzErrorTip="Insira o CPF!">
+                  <input nz-input placeholder="Por favor insira o cpf" formControlName="cpf" value="{{ last_cpf }}" />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label nzRequired nzFor="phone">Telefone</nz-form-label>
+                  <nz-form-control nzErrorTip="Insira o telefone!">
+                  <input nz-input placeholder="Por favor insira o telefone" formControlName="phone" value="{{ last_phone }}" />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label nzRequired nzFor="company">Empresa</nz-form-label>
+                  <nz-form-control nzErrorTip="Insira a empresa!">
+                  <input nz-input placeholder="Por favor insira a empresa" formControlName="company" value="{{ last_company }}" />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row class="register-area">
+                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                    <button nz-button nzType="primary">{{ labbel_button }}</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <p style="color:red">
+                    {{ message_submit }}
+                </p>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isLoadingForm">
+            <nz-spin nzSimple ></nz-spin>
+          </div>
+    </form>
+
+    <ng-template #footerTpl>
+      <div style="float: right">
+        <button nz-button style="margin-right: 8px;" (click)="close()">Cancelar</button>
+      </div>
+    </ng-template>
+  </nz-drawer>

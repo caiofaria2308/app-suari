@@ -1,4 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AppService } from '../../app.service';
 import {HomeService} from './home.service'
 
 
@@ -10,14 +12,53 @@ import {HomeService} from './home.service'
 
 export class HomeComponent implements OnInit {
   
-
   constructor(
     private homeService: HomeService,
+    private api_util: AppService
   ) { 
   }
 
+  person_list: Person[] = new Array
+  loading_table = true
+  types_list = new Array
   ngOnInit() {
-    var person_list: Person[] = this.homeService.getPerson()
+    this.load_types()
+  }
+
+  load_types(){
+    this.homeService.getTypes().subscribe(
+      (data: any) => {
+        data.forEach((element: any) => {
+          this.types_list[element.id] = element.name          
+        });
+
+        this.load_person()
+      }, (error: HttpErrorResponse) => {
+        console.log(error)
+      }
+    )
+  }
+  load_person(){
+    this.homeService.getPerson().subscribe(
+      (data: any) => {
+        data.forEach((element: any) => {
+          var p: Person = {
+            id: element.id,
+            name: element.name ,
+            phone: element.phone,
+            type: this.types_list[element.type],
+            cpf: element.cpf,
+            company: element.company,
+            last_update: element.last_update.toLocaleString()
+          }
+          this.person_list.push(p)
+        });
+        this.loading_table = false
+
+      },(error: HttpErrorResponse) => {
+        console.log(error)
+      }
+    )
   }
 
 }
@@ -27,7 +68,7 @@ export class HomeComponent implements OnInit {
 interface Person {
   id: number,
   name: string,
-  type: number,
+  type: string,
   cpf: string,
   phone: string,
   company: string,

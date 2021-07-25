@@ -17,6 +17,17 @@ export class AppService {
     }
     return true
   }
+  refresh(){
+    var url = `${localStorage.getItem('url_api')}auth/refresh`
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('refresh')}`
+      })
+    };
+    return this.http.post(url, httpOptions)
+  }
+
   login(form: any){
     
     var url = `${localStorage.getItem('url_api')}auth/`
@@ -27,4 +38,15 @@ export class AppService {
     };
     return this.http.post(url, form, httpOptions)
   } 
+
+  get_user(token: any, token_decode: any){
+    var url = `${localStorage.getItem('url_api')}api/v1/users/${token_decode.user_id}/`
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    return this.http.get(url, httpOptions)
+  }
 }
