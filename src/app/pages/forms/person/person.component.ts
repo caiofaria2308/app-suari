@@ -52,6 +52,9 @@ export class PersonComponent implements OnInit {
 
   load_type(){
     this.loading_table = true
+    this.list = new Array
+    this.type_list = new Array
+    this.tmp_type = new Array
     this.app.get_all_type().subscribe(
       (data: any) => {
         data.forEach((element: any) => {
