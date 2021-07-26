@@ -50,7 +50,6 @@ export class TypeComponent implements OnInit {
       }, (error: HttpErrorResponse) => {
         this.api_util.refresh()
         console.log(error)
-        location.href = location.href
       }
     )
   }
@@ -65,7 +64,6 @@ export class TypeComponent implements OnInit {
       }, (error: HttpErrorResponse) => {
         this.api_util.refresh()
         console.log(error)
-        location.href = location.href
       }
     )
     this.visible = true
@@ -117,6 +115,8 @@ export class TypeComponent implements OnInit {
           },(error: HttpErrorResponse) => {
               this.message_submit="Erro ao atualizar tipo de usuário"
               console.log(error)
+              location.href = location.href
+
           }
         )
       }
