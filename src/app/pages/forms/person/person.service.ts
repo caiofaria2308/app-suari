@@ -45,4 +45,14 @@ export class PersonService {
     var url = `${this.url_api}api/v1/person-media/`
     return this.http.get(url, this.httpOptions)
   }
+
+  get_type_media(){
+    var url = `${this.url_api}api/v1/person-media-type/`
+    return this.http.get(url, this.httpOptions)
+  }
+
+  send_photo(form: any) {
+    var url = `${this.url_api}api/v1/person-media/`
+    return this.http.post(url, form, this.httpOptions)
+  }
 }

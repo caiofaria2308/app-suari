@@ -16,10 +16,12 @@ export class PersonComponent implements OnInit {
   type_list = new Array
   tmp_type = new Array
   list_photos = new Array
+  type_media_list = new Array
 
   loading_table = true
   visible = false;
   visible_photos = false
+  visible_send_photo = false
   is_update = false
   labbel_button = "Cadastrar pessoa"
   message_submit = ""
@@ -33,6 +35,7 @@ export class PersonComponent implements OnInit {
 
   isLoadingForm = false
   isLoadingCarousel = false
+  isLoadingSendPhoto = false
   validateForm!: FormGroup;
 
   
@@ -50,7 +53,6 @@ export class PersonComponent implements OnInit {
       phone: [null, []],
       company: [null, [Validators.required]],
     });
-
     this.load_type()
   }
 
@@ -86,11 +88,24 @@ export class PersonComponent implements OnInit {
             type: this.tmp_type[element.type]
           })          
         });
+        this.load_person_media_type()
         this.loading_table = false
       }
-    )
-      
+    )   
   }
+
+  load_person_media_type(){
+    this.type_media_list = new Array
+    this.app.get_type_media().subscribe(
+      (data: any) => {
+        this.type_media_list = data
+      }, (error: HttpErrorResponse) => {
+        console.log(error)
+      }
+    )
+  }
+
+
   update(id: any) {
     this.is_update = true
     this.last_id = id
@@ -117,18 +132,26 @@ export class PersonComponent implements OnInit {
     this.visible = true;
   }
 
+  new_photo(){
+    this.visible_send_photo = true
+  }
+
 
   close(): void {
     this.visible = false;
   }
 
+
   open_photos(id: any): void{
     this.isLoadingCarousel = true
     this.list_photos = new Array
+    this.last_id = id
+    sessionStorage.setItem('temp', id)
     this.app.get_photos_by_id().subscribe(
       (data: any) => {
           data.forEach((element: any) => {
             if(id == element.person){
+              console.log(element)
               this.list_photos.push(element)
             }
           });
@@ -143,6 +166,10 @@ export class PersonComponent implements OnInit {
 
   close_photos(): void{
     this.visible_photos = false
+  }
+
+  close_send_photos(): void {
+    this.visible_send_photo = false
   }
 
 
@@ -184,6 +211,5 @@ export class PersonComponent implements OnInit {
       this.isLoadingForm = false
     }
   }
-
 }
 

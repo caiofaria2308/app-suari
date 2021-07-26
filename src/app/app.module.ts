@@ -26,7 +26,8 @@ import { TypeComponent } from './pages/forms/type/type.component';
 import { TypeMediaComponent } from './pages/forms/type-media/type-media.component';
 import { PersonComponent } from './pages/forms/person/person.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzCarouselModule } from 'ng-zorro-antd/carousel'
+import { NzCarouselModule } from 'ng-zorro-antd/carousel';
+import { NzUploadModule } from 'ng-zorro-antd/upload'
 
 registerLocaleData(pt);
 
@@ -57,7 +58,8 @@ registerLocaleData(pt);
     NzTableModule,
     NzDropDownModule,
     NzSelectModule,
-    NzCarouselModule
+    NzCarouselModule,
+    NzUploadModule
   ],
   providers: [{ provide: NZ_I18N, useValue: pt_BR }],
   bootstrap: [AppComponent]
